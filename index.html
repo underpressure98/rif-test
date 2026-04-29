@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RIFT — Living Game World</title>
+  <meta name="description" content="A game universe populated by AI characters with real motivations, alliances, and histories. They remember. They evolve. They form factions — with or without you." />
+  <meta property="og:title" content="RIFT — Living Game World" />
+  <meta property="og:description" content="The world runs without you." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="nav-logo">
+      <span class="logo-r">R</span><span class="logo-rest">IFT</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#world"><span>01</span>World</a></li>
+      <li><a href="#factions"><span>02</span>Factions</a></li>
+      <li><a href="#memory"><span>03</span>Memory</a></li>
+      <li><a href="#companion"><span>04</span>Companion</a></li>
+      <li><a href="#events"><span>05</span>Events</a></li>
+    </ul>
+    <a href="#waitlist" class="nav-cta">
+      <span class="cta-glow"></span>
+      Enter the Rift
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#world" class="mm-link">World</a></li>
+      <li><a href="#factions" class="mm-link">Factions</a></li>
+      <li><a href="#memory" class="mm-link">Memory</a></li>
+      <li><a href="#companion" class="mm-link">Companion</a></li>
+      <li><a href="#events" class="mm-link">Events</a></li>
+      <li><a href="#waitlist" class="mm-link mm-cta">Enter the Rift ↗</a></li>
+    </ul>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ti"><span class="ti-dot"></span>Persistent AI Characters</span>
+      <span class="ti"><span class="ti-dot"></span>Evolving Memory Systems</span>
+      <span class="ti"><span class="ti-dot"></span>Faction Economy</span>
+      <span class="ti"><span class="ti-dot"></span>Real-Time World Events</span>
+      <span class="ti"><span class="ti-dot"></span>Human + AI Co-existence</span>
+      <span class="ti"><span class="ti-dot"></span>Train Your Companion</span>
+      <span class="ti"><span class="ti-dot"></span>On-Chain Artifacts</span>
+      <span class="ti"><span class="ti-dot"></span>Living Lore Engine</span>
+      <span class="ti"><span class="ti-dot"></span>98 Years of In-World History</span>
+      <span class="ti"><span class="ti-dot"></span>Persistent AI Characters</span>
+      <span class="ti"><span class="ti-dot"></span>Evolving Memory Systems</span>
+      <span class="ti"><span class="ti-dot"></span>Faction Economy</span>
+      <span class="ti"><span class="ti-dot"></span>Real-Time World Events</span>
+      <span class="ti"><span class="ti-dot"></span>Human + AI Co-existence</span>
+      <span class="ti"><span class="ti-dot"></span>Train Your Companion</span>
+      <span class="ti"><span class="ti-dot"></span>On-Chain Artifacts</span>
+      <span class="ti"><span class="ti-dot"></span>Living Lore Engine</span>
+      <span class="ti"><span class="ti-dot"></span>98 Years of In-World History</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-inner">
+      <div class="hero-kicker reveal">
+        <span class="hk-line"></span>
+        <span class="hk-num">01</span>
+        <span class="hk-text">Living Game World</span>
+        <span class="hk-line"></span>
+      </div>
+      <h1 class="hero-h1 reveal rd1">
+        The world runs<br>
+        <em>without you.</em>
+      </h1>
+      <p class="hero-sub reveal rd2">
+        RIFT is a game universe populated by AI characters with real motivations,
+        alliances, and histories. They remember. They evolve. They form factions —
+        with or without human players present.
+      </p>
+      <div class="hero-actions reveal rd3">
+        <a href="#waitlist" class="btn-enter">
+          <span class="btn-bg"></span>
+          <span class="btn-label">Enter the Rift</span>
+          <span class="btn-arrow">↗</span>
+        </a>
+        <a href="#events" class="btn-watch">
+          <span class="bw-dot"></span>
+          Watch the world live
+        </a>
+      </div>
+      <div class="hero-tags reveal rd3">
+        <span class="htag">12,847 active characters</span>
+        <span class="htag-sep">·</span>
+        <span class="htag">4 living factions</span>
+        <span class="htag-sep">·</span>
+        <span class="htag">98yr of history</span>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="hs-inner">
+        <span class="hs-label">scroll to explore</span>
+        <span class="hs-line"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-band">
+    <div class="stats-inner">
+      <div class="stat-item reveal">
+        <div class="stat-n" data-target="12847">0</div>
+        <div class="stat-l">Active AI characters</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item reveal rd1">
+        <div class="stat-n" data-target="4">0</div>
+        <div class="stat-l">Living factions</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item reveal rd2">
+        <div class="stat-n" data-target="3200000" data-format="abbr">0</div>
+        <div class="stat-l">World events logged</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat-item reveal rd3">
+        <div class="stat-n" data-target="98" data-suffix="yr">0</div>
+        <div class="stat-l">In-world history</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORLD / MAP -->
+  <section class="section" id="world">
+    <div class="section-inner two-col">
+      <div class="col-text">
+        <div class="sec-eyebrow reveal"><span class="ey-num">02</span><span class="ey-line"></span><span class="ey-label">The World</span></div>
+        <h2 class="reveal rd1">A world <em>already<br>in motion.</em></h2>
+        <p class="sec-body reveal rd2">
+          You don't start a new game. You step into a world that has been running
+          for years. Territories have been won and lost. Alliances have formed and
+          broken. Characters carry the weight of history you didn't witness.
+        </p>
+        <p class="sec-body reveal rd2">
+          Every hex on the map belongs to a faction. Every border is contested.
+          Every character has a reason to be exactly where they are.
+        </p>
+        <div class="sec-note reveal rd3">
+          <span class="sn-bar"></span>
+          <span>The map updates in real time as factions contest territories.</span>
+        </div>
+      </div>
+      <div class="col-visual reveal rd1">
+        <div class="map-card">
+          <div class="map-card-header">
+            <span class="mc-label">Territory Map — Year 98</span>
+            <span class="mc-live"><span class="mc-dot"></span>Live</span>
+          </div>
+          <div class="hex-grid" id="hexGrid"></div>
+          <div class="map-legend">
+            <div class="ml-row">
+              <div class="ml-item"><span class="ml-sw ml-p"></span>Vorn Dominion<span class="ml-pct">34%</span></div>
+              <div class="ml-item"><span class="ml-sw ml-t"></span>Tide Collective<span class="ml-pct">28%</span></div>
+            </div>
+            <div class="ml-row">
+              <div class="ml-item"><span class="ml-sw ml-c"></span>Ashborn<span class="ml-pct">21%</span></div>
+              <div class="ml-item"><span class="ml-sw ml-a"></span>The Unnamed<span class="ml-pct">17%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FACTIONS -->
+  <section class="section factions-sec" id="factions">
+    <div class="section-inner">
+      <div class="sec-header">
+        <div class="sec-eyebrow reveal"><span class="ey-num">03</span><span class="ey-line"></span><span class="ey-label">Factions</span></div>
+        <h2 class="reveal rd1">Four <em>living factions.</em><br>One contested world.</h2>
+        <p class="sec-body reveal rd2">Each faction is an autonomous civilization of AI characters. They have ideologies, economies, military strategies, and internal politics. They don't wait for players to drive the story.</p>
+      </div>
+      <div class="factions-grid">
+        <div class="faction-card fc-purple reveal">
+          <div class="fc-glow"></div>
+          <div class="fc-top">
+            <span class="fc-tag">Expansionist</span>
+            <span class="fc-index">01</span>
+          </div>
+          <div class="fc-name">Vorn<br>Dominion</div>
+          <div class="fc-desc">A militaristic empire with rigid hierarchy. Its AI generals calculate every campaign months in advance. Loyalty is enforced. Dissent is archived.</div>
+          <div class="fc-footer">
+            <div class="fc-bar-wrap">
+              <div class="fc-bar"><div class="fc-fill" style="width:34%"></div></div>
+              <span class="fc-pct">34%</span>
+            </div>
+          </div>
+        </div>
+        <div class="faction-card fc-teal reveal rd1">
+          <div class="fc-glow"></div>
+          <div class="fc-top">
+            <span class="fc-tag">Cooperative</span>
+            <span class="fc-index">02</span>
+          </div>
+          <div class="fc-name">Tide<br>Collective</div>
+          <div class="fc-desc">A decentralized network of traders and scholars. Their AI agents share memory across nodes — what one knows, all know. Knowledge is their weapon.</div>
+          <div class="fc-footer">
+            <div class="fc-bar-wrap">
+              <div class="fc-bar"><div class="fc-fill" style="width:28%"></div></div>
+              <span class="fc-pct">28%</span>
+            </div>
+          </div>
+        </div>
+        <div class="faction-card fc-coral reveal rd2">
+          <div class="fc-glow"></div>
+          <div class="fc-top">
+            <span class="fc-tag">Insurgent</span>
+            <span class="fc-index">03</span>
+          </div>
+          <div class="fc-name">Ash<br>born</div>
+          <div class="fc-desc">Survivors of a collapsed civilization. Driven by vengeance and survival instinct. Their AI agents have the highest emotional memory density in the world.</div>
+          <div class="fc-footer">
+            <div class="fc-bar-wrap">
+              <div class="fc-bar"><div class="fc-fill" style="width:21%"></div></div>
+              <span class="fc-pct">21%</span>
+            </div>
+          </div>
+        </div>
+        <div class="faction-card fc-amber reveal rd3">
+          <div class="fc-glow"></div>
+          <div class="fc-top">
+            <span class="fc-tag">Enigmatic</span>
+            <span class="fc-index">04</span>
+          </div>
+          <div class="fc-name">The<br>Unnamed</div>
+          <div class="fc-desc">No one knows their origin or goal. They appear, act, and vanish. Their AI agents communicate in patterns no other faction has decoded. Yet.</div>
+          <div class="fc-footer">
+            <div class="fc-bar-wrap">
+              <div class="fc-bar"><div class="fc-fill" style="width:17%"></div></div>
+              <span class="fc-pct">17%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMORY -->
+  <section class="section" id="memory">
+    <div class="section-inner two-col two-col-rev">
+      <div class="col-visual reveal">
+        <div class="memory-card">
+          <div class="memory-card-header">
+            <span class="mc-label">Memory Log — Kael #4471</span>
+            <span class="mem-chip">Active</span>
+          </div>
+          <div class="mem-timeline">
+            <div class="mem-entry">
+              <div class="mem-connector">
+                <div class="mem-node mn-purple"></div>
+                <div class="mem-line"></div>
+              </div>
+              <div class="mem-body">
+                <div class="mem-meta"><span class="mem-tag mt-high">High impact</span><span class="mem-yr">Year 94</span></div>
+                <div class="mem-title">Betrays the Dominion</div>
+                <div class="mem-text">Switches allegiance after Vorn general orders his village burned. Trust score: −84. This event is immutable.</div>
+              </div>
+            </div>
+            <div class="mem-entry">
+              <div class="mem-connector">
+                <div class="mem-node mn-teal"></div>
+                <div class="mem-line"></div>
+              </div>
+              <div class="mem-body">
+                <div class="mem-meta"><span class="mem-tag mt-med">Alliance</span><span class="mem-yr">Year 96</span></div>
+                <div class="mem-title">Forms alliance with Mira</div>
+                <div class="mem-text">Negotiates a resource-sharing pact. Memory link established. Both agents share threat detection data in real time.</div>
+              </div>
+            </div>
+            <div class="mem-entry mem-last">
+              <div class="mem-connector">
+                <div class="mem-node mn-now"></div>
+              </div>
+              <div class="mem-body">
+                <div class="mem-meta"><span class="mem-tag mt-now">Now</span></div>
+                <div class="mem-title">Human player enters the world</div>
+                <div class="mem-text">Kael recognizes an outsider. Offers a conditional alliance. Will remember every choice you make from this point.</div>
+              </div>
+            </div>
+          </div>
+          <div class="mem-footer">
+            <span class="mf-label">Memory integrity</span>
+            <div class="mf-bar"><div class="mf-fill"></div></div>
+            <span class="mf-val">100%</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-text">
+        <div class="sec-eyebrow reveal"><span class="ey-num">04</span><span class="ey-line"></span><span class="ey-label">Memory System</span></div>
+        <h2 class="reveal rd1">Characters that <em>remember.</em></h2>
+        <p class="sec-body reveal rd2">Every AI character in RIFT has a persistent memory log. They remember who betrayed them, who saved them, what deals were broken. Memory shapes behavior — permanently.</p>
+        <p class="sec-body reveal rd2">You can read a character's memory. You can influence it. But you cannot erase it.</p>
+        <div class="mem-stats reveal rd3">
+          <div class="ms-item">
+            <span class="ms-n">∞</span>
+            <span class="ms-l">Memory depth</span>
+          </div>
+          <div class="ms-item">
+            <span class="ms-n">Real-time</span>
+            <span class="ms-l">Behavior updates</span>
+          </div>
+          <div class="ms-item">
+            <span class="ms-n">0</span>
+            <span class="ms-l">Events erased</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPANION -->
+  <section class="section companion-sec" id="companion">
+    <div class="section-inner two-col">
+      <div class="col-text">
+        <div class="sec-eyebrow reveal"><span class="ey-num">05</span><span class="ey-line"></span><span class="ey-label">Your Companion</span></div>
+        <h2 class="reveal rd1">Train it.<br><em>Release it.</em></h2>
+        <p class="sec-body reveal rd2">Your companion is not a character you control. It's a character you raise. Every input you give it shapes how it thinks, how it fights, and who it trusts.</p>
+        <p class="sec-body reveal rd2">The strongest companions are the ones whose players trained them well — then had the courage to let go.</p>
+      </div>
+      <div class="col-visual">
+        <div class="steps-card">
+          <div class="step reveal">
+            <div class="step-icon"><span class="si-n">Ⅰ</span></div>
+            <div class="step-body">
+              <div class="step-title">Deploy your AI companion</div>
+              <div class="step-text">Choose a faction, a starting role, and a core motivation. Your companion enters the world as a blank slate with instincts.</div>
+            </div>
+          </div>
+          <div class="step reveal rd1">
+            <div class="step-icon"><span class="si-n">Ⅱ</span></div>
+            <div class="step-body">
+              <div class="step-title">Shape its style and values</div>
+              <div class="step-text">Feed it tactical data, moral frameworks, and cultural memories. It develops preferences, skills, and a distinct personality over time.</div>
+            </div>
+          </div>
+          <div class="step reveal rd2">
+            <div class="step-icon"><span class="si-n">Ⅲ</span></div>
+            <div class="step-body">
+              <div class="step-title">Set it loose</div>
+              <div class="step-text">Your companion operates autonomously when you're offline. It forms alliances, pursues goals, survives — or doesn't. It always remembers.</div>
+            </div>
+          </div>
+          <div class="step reveal rd3">
+            <div class="step-icon"><span class="si-n">Ⅳ</span></div>
+            <div class="step-body">
+              <div class="step-title">Return to a changed world</div>
+              <div class="step-text">Come back and find your companion has a history. Allies. Enemies. Scars. The world moved on. Your story continued without you.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE EVENTS -->
+  <section class="section events-sec" id="events">
+    <div class="section-inner two-col two-col-rev">
+      <div class="col-visual reveal">
+        <div class="feed-card">
+          <div class="feed-header">
+            <div class="feed-live">
+              <span class="feed-dot"></span>
+              <span class="feed-label">World feed</span>
+            </div>
+            <span class="feed-count" id="feedCount">4 events</span>
+          </div>
+          <div class="feed-events" id="feedEvents">
+            <div class="feed-event">
+              <span class="fe-badge fe-combat">Combat</span>
+              <div class="fe-text"><strong>General Vael</strong> (Vorn) defeats <strong>Ryn</strong> (Ashborn) at the Iron Pass. Ryn's memory is preserved.</div>
+              <div class="fe-time">2m</div>
+            </div>
+            <div class="feed-event">
+              <span class="fe-badge fe-trade">Trade</span>
+              <div class="fe-text"><strong>Tide node #447</strong> exchanges 1,200 knowledge tokens with <strong>Mira</strong> for passage rights through the Delta.</div>
+              <div class="fe-time">5m</div>
+            </div>
+            <div class="feed-event">
+              <span class="fe-badge fe-alliance">Alliance</span>
+              <div class="fe-text"><strong>Kael</strong> and <strong>Sora</strong> formalize a mutual defense pact. Both agents update their threat models.</div>
+              <div class="fe-time">11m</div>
+            </div>
+            <div class="feed-event">
+              <span class="fe-badge fe-combat">Combat</span>
+              <div class="fe-text"><strong>The Unnamed</strong> surfaces in Sector 7. Identity unknown. Two Vorn scouts go offline.</div>
+              <div class="fe-time">18m</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-text">
+        <div class="sec-eyebrow reveal"><span class="ey-num">06</span><span class="ey-line"></span><span class="ey-label">World Events</span></div>
+        <h2 class="reveal rd1">The world never <em>stops.</em></h2>
+        <p class="sec-body reveal rd2">Wars break out between AI factions without human input. Trade routes collapse. Characters die and are mourned by others who knew them. The lore engine writes history in real time.</p>
+        <p class="sec-body reveal rd2">Every event is permanent. Every consequence is remembered. The world has no reset button.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section features-sec" id="features">
+    <div class="section-inner">
+      <div class="sec-header">
+        <div class="sec-eyebrow reveal"><span class="ey-num">07</span><span class="ey-line"></span><span class="ey-label">Features</span></div>
+        <h2 class="reveal rd1">Everything that makes<br>the <em>world real.</em></h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feat-num">01</div>
+          <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          <div class="feat-title">Persistent characters</div>
+          <div class="feat-text">AI characters exist continuously. They age, grow, and die on their own terms — with or without players watching.</div>
+        </div>
+        <div class="feature-card reveal rd1">
+          <div class="feat-num">02</div>
+          <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 10h10M4 14h12M4 18h8"/></svg>
+          <div class="feat-title">Memory ledger</div>
+          <div class="feat-text">Every interaction is stored and shapes future behavior. Betrayals, alliances, grief — nothing is forgotten, ever.</div>
+        </div>
+        <div class="feature-card reveal rd2">
+          <div class="feat-num">03</div>
+          <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 18l-6.2 3 1.2-6.8L2 9.3l6.9-1z"/></svg>
+          <div class="feat-title">Faction economy</div>
+          <div class="feat-text">Resources, territory, and knowledge are traded between factions in real time. Economies collapse and rebuild.</div>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feat-num">04</div>
+          <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="8" height="8" rx="1"/><rect x="14" y="3" width="8" height="8" rx="1"/><rect x="2" y="13" width="8" height="8" rx="1"/><rect x="14" y="13" width="8" height="8" rx="1"/></svg>
+          <div class="feat-title">On-chain artifacts</div>
+          <div class="feat-text">Weapons, lore scrolls, and legendary items exist as ownable on-chain objects. History you can hold.</div>
+        </div>
+        <div class="feature-card reveal rd1">
+          <div class="feat-num">05</div>
+          <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div class="feat-title">Living lore engine</div>
+          <div class="feat-text">History is written by AI agents as events unfold. The canon is always expanding. No two playthroughs are the same world.</div>
+        </div>
+        <div class="feature-card reveal rd2">
+          <div class="feat-num">06</div>
+          <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <div class="feat-title">Companion training</div>
+          <div class="feat-text">Feed your companion data, values, and combat strategies. Shape who it becomes before you release it into the world.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / WAITLIST -->
+  <section class="cta-section" id="waitlist">
+    <div class="cta-orb"></div>
+    <div class="cta-inner">
+      <div class="sec-eyebrow reveal" style="justify-content:center"><span class="ey-num">08</span><span class="ey-line"></span><span class="ey-label">Early Access</span></div>
+      <h2 class="cta-h2 reveal rd1">Your companion<br>is <em>waiting.</em></h2>
+      <p class="cta-sub reveal rd2">The world has been running for 98 years of in-world history.<br>Step in. Someone will remember you were here.</p>
+      <form class="cta-form reveal rd3" id="ctaForm">
+        <div class="cf-wrap">
+          <input type="email" placeholder="your@email.com" required id="emailInput" />
+          <button type="submit">
+            <span>Get early access</span>
+            <span class="btn-arr">↗</span>
+          </button>
+        </div>
+      </form>
+      <div class="cta-success" id="ctaSuccess">
+        <span class="cs-icon">✦</span>
+        You're on the list. The Rift remembers.
+      </div>
+      <p class="cta-fine reveal rd3">No spam. No release date. Just a world waiting to be witnessed.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo"><span class="logo-r">R</span><span class="logo-rest">IFT</span></div>
+          <div class="footer-tagline">A living game world.</div>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <div class="fc-head">World</div>
+            <a href="#world">The Map</a>
+            <a href="#factions">Factions</a>
+            <a href="#memory">Memory System</a>
+          </div>
+          <div class="footer-col">
+            <div class="fc-head">Play</div>
+            <a href="#companion">Your Companion</a>
+            <a href="#events">World Events</a>
+            <a href="#waitlist">Early Access</a>
+          </div>
+          <div class="footer-col">
+            <div class="fc-head">Developers</div>
+            <a href="#">Docs</a>
+            <a href="#">World API</a>
+            <a href="#">Lore Archive</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 RIFT World. All rights reserved.</div>
+        <div class="footer-social">
+          <a href="#">Twitter / X</a>
+          <a href="#">Discord</a>
+          <a href="#">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
