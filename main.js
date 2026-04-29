@@ -1,61 +1,71 @@
-/* ============================================================
-   RIFT — MAIN.JS
-   Custom cursor · Nav scroll · Hamburger · Hero canvas
-   Hex map · Reveal observer · Counter animation
-   Live feed simulation · Waitlist form
-   ============================================================ */
+/**
+ * RIFT — main.js
+ * Custom cursor · Nav scroll · Mobile menu · Hero canvas
+ * Hex map · Scroll reveal · Counter animation
+ * Live feed · Waitlist form
+ */
 
 'use strict';
 
-/* ===== CUSTOM CURSOR ===== */
+/* ── CUSTOM CURSOR ─────────────────────────────────────────────────────── */
 (function () {
-  const cursor = document.getElementById('cursor');
-  const trail  = document.getElementById('cursorTrail');
-  if (!cursor || !trail) return;
+  const dot   = document.getElementById('cursor');
+  const trail = document.getElementById('cursorTrail');
+  if (!dot || !trail) return;
 
-  let mx = -100, my = -100, tx = -100, ty = -100;
+  let mx = -200, my = -200, tx = -200, ty = -200;
 
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
   });
 
-  (function animTrail() {
+  (function loop() {
     tx += (mx - tx) * 0.14;
     ty += (my - ty) * 0.14;
     trail.style.left = tx + 'px';
     trail.style.top  = ty + 'px';
-    requestAnimationFrame(animTrail);
+    requestAnimationFrame(loop);
   })();
 })();
 
-/* ===== NAV SCROLL ===== */
+/* ── NAV SCROLL STATE ──────────────────────────────────────────────────── */
 (function () {
   const nav = document.getElementById('nav');
   if (!nav) return;
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 30);
+  }, { passive: true });
 })();
 
-/* ===== HAMBURGER ===== */
+/* ── MOBILE HAMBURGER ──────────────────────────────────────────────────── */
 (function () {
   const btn  = document.getElementById('hamburger');
   const menu = document.getElementById('mobileMenu');
   if (!btn || !menu) return;
-  btn.addEventListener('click', () => menu.classList.toggle('open'));
-  document.querySelectorAll('.mm-link').forEach(l =>
-    l.addEventListener('click', () => menu.classList.remove('open'))
+
+  btn.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+
+  document.querySelectorAll('.mm-link').forEach(link =>
+    link.addEventListener('click', () => {
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    })
   );
 })();
 
-/* ===== HERO CANVAS — Constellation field ===== */
+/* ── HERO CANVAS — Drifting constellation ──────────────────────────────── */
 (function () {
   const canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const ACCENT = [139, 127, 255];
-  const COUNT  = 70;
+
+  const ctx   = canvas.getContext('2d');
+  const RGB   = [139, 127, 255];   /* accent violet */
+  const COUNT = 72;
   let W, H, pts = [];
 
   function resize() {
@@ -63,64 +73,66 @@
     H = canvas.height = canvas.offsetHeight;
   }
 
-  function initPts() {
+  function populate() {
     pts = Array.from({ length: COUNT }, () => ({
       x:  Math.random() * W,
       y:  Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.26,
-      vy: (Math.random() - 0.5) * 0.26,
-      r:  Math.random() * 1.6 + 0.4,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r:  Math.random() * 1.5 + 0.4,
     }));
   }
 
-  function draw() {
+  function frame() {
     ctx.clearRect(0, 0, W, H);
 
-    // move + draw dots
     for (const p of pts) {
       p.x += p.vx; p.y += p.vy;
-      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${ACCENT.join(',')},0.3)`;
+      ctx.fillStyle = `rgba(${RGB},0.28)`;
       ctx.fill();
     }
 
-    // connecting lines
     for (let i = 0; i < pts.length; i++) {
       for (let j = i + 1; j < pts.length; j++) {
         const dx   = pts[i].x - pts[j].x;
         const dy   = pts[i].y - pts[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 130) {
-          const alpha = (1 - dist / 130) * 0.09;
           ctx.beginPath();
           ctx.moveTo(pts[i].x, pts[i].y);
           ctx.lineTo(pts[j].x, pts[j].y);
-          ctx.strokeStyle = `rgba(${ACCENT.join(',')},${alpha})`;
-          ctx.lineWidth   = 0.6;
+          ctx.strokeStyle = `rgba(${RGB},${(1 - dist / 130) * 0.09})`;
+          ctx.lineWidth   = 0.5;
           ctx.stroke();
         }
       }
     }
-    requestAnimationFrame(draw);
+    requestAnimationFrame(frame);
   }
 
-  resize(); initPts(); draw();
-  let resizeTimer;
+  resize(); populate(); frame();
+
+  let timer;
   window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { resize(); initPts(); }, 120);
+    clearTimeout(timer);
+    timer = setTimeout(() => { resize(); populate(); }, 150);
   });
 })();
 
-/* ===== HEX MAP ===== */
+/* ── HEX MAP ────────────────────────────────────────────────────────────── */
 (function () {
   const grid = document.getElementById('hexGrid');
   if (!grid) return;
 
-  const pattern = [
+  /* 7×7 grid of faction tiles */
+  const map = [
     'p','p','t','t','e','c','c',
     'p','p','e','t','c','c','e',
     'e','p','t','t','c','e','a',
@@ -129,120 +141,147 @@
     'p','p','e','e','a','a','e',
     'e','p','t','e','a','a','a',
   ];
-  const labels = { p: 'VD', t: 'TC', c: 'AB', a: 'UN', e: '' };
-  const cls    = { p: 'hx-p', t: 'hx-t', c: 'hx-c', a: 'hx-a', e: 'hx-e' };
-  const tips   = { p: 'Vorn Dominion', t: 'Tide Collective', c: 'Ashborn', a: 'The Unnamed', e: '' };
 
-  pattern.forEach(type => {
-    const h = document.createElement('div');
-    h.className = `hex ${cls[type]}`;
-    h.textContent = labels[type];
-    if (tips[type]) h.title = tips[type];
-    grid.appendChild(h);
+  const LABEL = { p: 'VD', t: 'TC', c: 'AB', a: 'UN', e: '' };
+  const CLS   = { p: 'hx-p', t: 'hx-t', c: 'hx-c', a: 'hx-a', e: 'hx-e' };
+  const TITLE = { p: 'Vorn Dominion', t: 'Tide Collective', c: 'Ashborn', a: 'The Unnamed', e: '' };
+
+  map.forEach(type => {
+    const cell = document.createElement('div');
+    cell.className = `hex ${CLS[type]}`;
+    cell.textContent = LABEL[type];
+    if (TITLE[type]) cell.title = TITLE[type];
+    grid.appendChild(cell);
   });
 })();
 
-/* ===== REVEAL ON SCROLL ===== */
+/* ── SCROLL REVEAL ──────────────────────────────────────────────────────── */
 (function () {
-  const els = document.querySelectorAll('.reveal');
-  const io  = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1 });
-  els.forEach(el => io.observe(el));
+
+  items.forEach(el => io.observe(el));
 })();
 
-/* ===== COUNTER ANIMATION ===== */
+/* ── COUNTER ANIMATION ──────────────────────────────────────────────────── */
 (function () {
-  const counters = document.querySelectorAll('.stat-n[data-target]');
+  const nodes = document.querySelectorAll('.stat-number[data-target]');
+
   const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el     = e.target;
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+
+      const el     = entry.target;
       const target = parseInt(el.dataset.target, 10);
-      const fmt    = el.dataset.format;
+      const format = el.dataset.format || '';
       const suffix = el.dataset.suffix || '';
       const DURATION = 1500;
-      const startTime = performance.now();
+      const t0 = performance.now();
 
-      function step(now) {
-        const t    = Math.min((now - startTime) / DURATION, 1);
-        const ease = 1 - Math.pow(1 - t, 3);
-        const val  = Math.round(ease * target);
-        if (fmt === 'abbr') {
-          el.textContent = val >= 1_000_000
-            ? (val / 1_000_000).toFixed(1) + 'M'
-            : val.toLocaleString();
+      function tick(now) {
+        const progress = Math.min((now - t0) / DURATION, 1);
+        const eased    = 1 - Math.pow(1 - progress, 3);
+        const value    = Math.round(eased * target);
+
+        if (format === 'abbr') {
+          el.textContent = value >= 1_000_000
+            ? (value / 1_000_000).toFixed(1) + 'M'
+            : value.toLocaleString();
         } else {
-          el.textContent = val.toLocaleString() + suffix;
+          el.textContent = value.toLocaleString() + suffix;
         }
-        if (t < 1) requestAnimationFrame(step);
+
+        if (progress < 1) requestAnimationFrame(tick);
       }
-      requestAnimationFrame(step);
+
+      requestAnimationFrame(tick);
       io.unobserve(el);
     });
   }, { threshold: 0.5 });
-  counters.forEach(c => io.observe(c));
+
+  nodes.forEach(n => io.observe(n));
 })();
 
-/* ===== LIVE FEED SIMULATION ===== */
+/* ── LIVE FEED SIMULATION ───────────────────────────────────────────────── */
 (function () {
-  const feed     = document.getElementById('feedEvents');
-  const countEl  = document.getElementById('feedCount');
-  if (!feed) return;
+  const list    = document.getElementById('feedList');
+  const counter = document.getElementById('feedCount');
+  if (!list) return;
 
-  const events = [
-    { type: 'fe-combat',   badge: 'Combat',   text: '<strong>Sova</strong> (Ashborn) ambushes a Vorn supply convoy near the Ashfields. Three Vorn agents go offline.' },
-    { type: 'fe-trade',    badge: 'Trade',     text: '<strong>Tide node #112</strong> lists 400 memory shards on the open exchange. Cleared in under 3 minutes.' },
-    { type: 'fe-alliance', badge: 'Alliance',  text: '<strong>The Unnamed</strong> leaves a sealed offer at Ashborn gate. Contents unknown. Ashborn AI deliberates.' },
-    { type: 'fe-combat',   badge: 'Combat',    text: '<strong>Kael</strong> defends a border hex for the 4th consecutive cycle. Vorn losses classified as significant.' },
-    { type: 'fe-trade',    badge: 'Trade',     text: '<strong>Human player "Vexx"</strong> sells a recovered relic to Tide Collective for 2,800 knowledge tokens.' },
-    { type: 'fe-alliance', badge: 'Alliance',  text: '<strong>Mira</strong> and <strong>Tide node #88</strong> formalize a new knowledge-sharing protocol. Effective immediately.' },
-    { type: 'fe-combat',   badge: 'Combat',    text: '<strong>The Unnamed</strong> agent disappears from Sector 4. Last known contact: 6 minutes ago. No trace.' },
+  const EVENTS = [
+    {
+      type: 'badge-combat', label: 'Combat',
+      text: '<strong>Sova</strong> (Ashborn) ambushes a Vorn supply convoy near the Ashfields. Three Vorn agents go offline.',
+    },
+    {
+      type: 'badge-trade', label: 'Trade',
+      text: '<strong>Tide node #112</strong> lists 400 memory shards on the open exchange. Cleared in under 3 minutes.',
+    },
+    {
+      type: 'badge-alliance', label: 'Alliance',
+      text: '<strong>The Unnamed</strong> leaves a sealed offer at Ashborn gate. Contents unknown. Ashborn AI council deliberates.',
+    },
+    {
+      type: 'badge-combat', label: 'Combat',
+      text: '<strong>Kael</strong> defends a border hex for the 4th consecutive cycle. Vorn losses are classified as significant.',
+    },
+    {
+      type: 'badge-trade', label: 'Trade',
+      text: '<strong>Human player "Vexx"</strong> sells a recovered relic to Tide Collective for 2,800 knowledge tokens.',
+    },
+    {
+      type: 'badge-alliance', label: 'Alliance',
+      text: '<strong>Mira</strong> and <strong>Tide node #88</strong> formalize a new knowledge-sharing protocol. Effective immediately.',
+    },
+    {
+      type: 'badge-combat', label: 'Combat',
+      text: '<strong>The Unnamed</strong> agent vanishes from Sector 4. Last known contact: 6 minutes ago. No trace left behind.',
+    },
   ];
 
-  let count = feed.querySelectorAll('.feed-event').length;
+  let total = list.querySelectorAll('.feed-event').length;
 
   function addEvent() {
-    const ev  = events[Math.floor(Math.random() * events.length)];
-    const div = document.createElement('div');
-    div.className = 'feed-event';
-    Object.assign(div.style, {
-      opacity: '0', transform: 'translateY(-10px)',
-      transition: 'opacity 0.4s ease, transform 0.4s ease',
-    });
-    div.innerHTML = `
-      <span class="fe-badge ${ev.type}">${ev.badge}</span>
-      <div class="fe-text">${ev.text}</div>
-      <div class="fe-time">just now</div>
+    const ev  = EVENTS[Math.floor(Math.random() * EVENTS.length)];
+    const row = document.createElement('div');
+    row.className = 'feed-event';
+    Object.assign(row.style, { opacity: '0', transform: 'translateY(-10px)', transition: 'opacity .4s ease, transform .4s ease' });
+    row.innerHTML = `
+      <span class="event-badge ${ev.type}">${ev.label}</span>
+      <p class="event-text">${ev.text}</p>
+      <span class="event-time">just now</span>
     `;
-    feed.insertBefore(div, feed.firstChild);
+
+    list.insertBefore(row, list.firstChild);
     requestAnimationFrame(() => {
-      div.style.opacity   = '1';
-      div.style.transform = 'translateY(0)';
+      row.style.opacity   = '1';
+      row.style.transform = 'translateY(0)';
     });
 
-    count++;
-    if (countEl) countEl.textContent = count + ' events';
+    total++;
+    if (counter) counter.textContent = total + ' events';
 
-    const all = feed.querySelectorAll('.feed-event');
-    if (all.length > 5) {
-      const last = all[all.length - 1];
-      Object.assign(last.style, { opacity: '0', transform: 'translateY(6px)', transition: 'all 0.35s ease' });
+    /* trim to max 5 rows */
+    const rows = list.querySelectorAll('.feed-event');
+    if (rows.length > 5) {
+      const last = rows[rows.length - 1];
+      Object.assign(last.style, { opacity: '0', transform: 'translateY(6px)', transition: 'all .35s ease' });
       setTimeout(() => last.remove(), 380);
     }
   }
 
-  // stagger the first addition so it feels live right away
   setTimeout(addEvent, 3000);
   setInterval(addEvent, 5500);
 })();
 
-/* ===== WAITLIST FORM ===== */
+/* ── WAITLIST FORM ──────────────────────────────────────────────────────── */
 (function () {
   const form    = document.getElementById('ctaForm');
   const success = document.getElementById('ctaSuccess');
@@ -250,11 +289,11 @@
 
   form.addEventListener('submit', e => {
     e.preventDefault();
+    form.style.transition = 'opacity .3s';
     form.style.opacity    = '0';
-    form.style.transition = 'opacity 0.3s';
     setTimeout(() => {
       form.style.display = 'none';
       success.classList.add('visible');
-    }, 300);
+    }, 320);
   });
 })();
